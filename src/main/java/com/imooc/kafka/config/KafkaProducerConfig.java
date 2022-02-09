@@ -31,6 +31,8 @@ public class KafkaProducerConfig {
     private int linger;
     @Value("${kafka.producer.buffer.memory}")
     private int bufferMemory;
+    @Value("${kafka.producer.acks}")
+    private int acks;
 
 
     public Map<String, Object> producerConfigs() {
@@ -40,6 +42,7 @@ public class KafkaProducerConfig {
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, batchSize);
         props.put(ProducerConfig.LINGER_MS_CONFIG, linger);
         props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, bufferMemory);
+        props.put(ProducerConfig.ACKS_CONFIG, acks);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         return props;
