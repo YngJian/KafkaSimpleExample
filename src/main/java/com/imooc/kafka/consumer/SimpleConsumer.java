@@ -14,7 +14,12 @@ public class SimpleConsumer {
     private final Gson gson = new Gson();
 
     @KafkaListener(topics = "${kafka.topic.default}", containerFactory = "kafkaListenerContainerFactory")
-    public void receive(MessageEntity message) {
-        log.info(gson.toJson(message));
+    public void receive(String message) {
+        try {
+            String json = gson.toJson(message);
+            log.info(json);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
     }
 }
