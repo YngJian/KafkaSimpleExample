@@ -12,25 +12,26 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 @Component
 public class SimpleProducer {
+    private final Gson gson = new Gson();
 
     @Autowired
     @Qualifier("kafkaTemplate")
-    private KafkaTemplate<String, MessageEntity> kafkaTemplate;
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     public void send(String topic, MessageEntity message) {
-        kafkaTemplate.send(topic, message);
+        kafkaTemplate.send(topic, gson.toJson(message));
     }
 
     public void send(String topic, String key, MessageEntity entity) {
-        ProducerRecord<String, MessageEntity> record = new ProducerRecord<>(
+        ProducerRecord<String, String> record = new ProducerRecord<>(
                 topic,
                 key,
-                entity);
+                gson.toJson(entity));
 
         long startTime = System.currentTimeMillis();
 
-        ListenableFuture<SendResult<String, MessageEntity>> future = kafkaTemplate.send(record);
-        future.addCallback(new ProducerCallback(startTime, key, entity));
+        ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send(record);
+        future.addCallback(new ProducerCallback(startTime, key, gson.toJson(entity)));
     }
 
 }

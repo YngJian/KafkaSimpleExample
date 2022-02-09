@@ -45,14 +45,14 @@ public class KafkaProducerConfig {
         return props;
     }
 
-    public ProducerFactory<String, MessageEntity> producerFactory() {
+    public ProducerFactory<String, String> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs(),
                 new StringSerializer(),
-                new JsonSerializer<MessageEntity>());
+                new StringSerializer());
     }
 
     @Bean
-    public KafkaTemplate<String, MessageEntity> kafkaTemplate() {
+    public KafkaTemplate<String, String> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

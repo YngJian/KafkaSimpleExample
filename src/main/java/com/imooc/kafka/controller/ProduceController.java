@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 
 @Slf4j
 @RestController
@@ -37,7 +39,7 @@ public class ProduceController {
     public Response sendKafka(@RequestBody MessageEntity message) {
         try {
             log.info("kafka的消息={}", gson.toJson(message));
-            simpleProducer.send(topic, "key", message);
+            simpleProducer.send(topic, UUID.randomUUID().toString(), message);
             log.info("发送kafka成功.");
             return new Response(ErrorCode.SUCCESS, "发送kafka成功");
         } catch (Exception e) {
