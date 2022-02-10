@@ -24,7 +24,7 @@ public class ProduceController {
     @Autowired
     private SimpleProducer simpleProducer;
 
-    @Value("${kafka.topic.default}")
+    @Value("${spring.kafka.topic.default}")
     private String topic;
 
     private Gson gson = new Gson();

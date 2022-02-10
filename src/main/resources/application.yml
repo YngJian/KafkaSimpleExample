@@ -1,0 +1,27 @@
+spring:
+    kafka:
+        bootstrap-servers: localhost:9092  # 指定 Kafka Broker 地址，可以设置多个，以逗号分隔
+        producer:
+            retries: 0 # 发送失败时，重试发送的次数
+            batch-size: 16384
+            buffer-memory: 33554432
+            key-serializer: org.apache.kafka.common.serialization.StringSerializer
+            value-serializer: org.apache.kafka.common.serialization.StringSerializer
+            acks: 1  # 0-不应答。1-leader 应答。all-所有 leader 和 follower 应答。
+        consumer:
+            group-id: yang
+            # 手动提交
+            enable-auto-commit: false
+            auto-offset-reset: latest
+            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            properties:
+                session.timeout.ms: 60000
+            topic: test-kafka
+        listener:
+            log-container-config: false
+            concurrency: 5
+            # 手动提交
+            ack-mode: manual_immediate
+        topic:
+            default: test-kafka
